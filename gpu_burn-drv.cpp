@@ -136,8 +136,10 @@ template <class T> class GPU_Test {
 		//checkError(cublasInit());
 		checkError(cublasCreate(&d_cublas), "init");
 
+		/*
 		if(d_tensors)
 			checkError(cublasSetMathMode(d_cublas, CUBLAS_TENSOR_OP_MATH));
+		*/
 
 		checkError(cuMemAllocHost((void**)&d_faultyElemsHost, sizeof(int)));
 		d_error = 0;
@@ -478,12 +480,15 @@ void listenClients(std::vector<int> clientFd, std::vector<pid_t> clientPid, int 
 					clientCalcs.at(i) += processed;
 				}
 
-				childReport = true;
+				//childReport = true;
 			}
 
+		/*
 		if (FD_ISSET(tempHandle, &waitHandles))
 			updateTemps(tempHandle, &clientTemp);
 		
+		*/
+
 		// Resetting the listeners
 		FD_ZERO(&waitHandles);
 		FD_SET(tempHandle, &waitHandles);
@@ -568,7 +573,6 @@ void listenClients(std::vector<int> clientFd, std::vector<pid_t> clientPid, int 
 }
 
 template<class T> void launch(int runLength, bool useDoubles, bool useTensorCores) {
-	system("nvidia-smi -L");
 
 	// Initting A and B with random data
 	T *A = (T*) malloc(sizeof(T)*SIZE*SIZE);
@@ -666,7 +670,7 @@ int main(int argc, char **argv) {
 	}
 	
 	if (argc-thisParam < 2)
-		printf("Run length not specified in the command line.  Burning for 10 secs\n");
+		printf("Run length not specified in the command line.  Burning for %d secs\n", runLength);
 	else 
 		runLength = atoi(argv[1+thisParam]);
 
