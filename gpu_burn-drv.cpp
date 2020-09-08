@@ -248,7 +248,7 @@ template <class T> class GPU_Test {
 	}
 
 	void initCompareKernel() {
-		const char *kernelFile = "compare.ptx";
+		const char *kernelFile = "/usr/share/gpu-burn/compare.ptx";
 		{
 			std::ifstream f(kernelFile);
 			checkError(f.good() ? CUDA_SUCCESS : CUDA_ERROR_NOT_FOUND, std::string("couldn't find file \"") + kernelFile + "\" from working directory");
